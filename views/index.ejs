@@ -1,0 +1,127 @@
+<!-- HERO -->
+<section class="hero fade-up">
+  <div class="wrap hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Premium Blog Platform
+      </div>
+      <h1 class="hero-title">Ideas worth<br/><em>reading.</em></h1>
+      <p class="hero-body">Velour is where developers share deep insights, technical craft, and modern perspectives on building the web.</p>
+      <div class="hero-actions">
+        <a href="/posts" class="btn-primary">Explore Posts</a>
+        <% if (!locals.user) { %>
+          <a href="/login-choice" class="btn-secondary">Join Community</a>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <% if (locals.featured) { %>
+        <a href="/post/<%= featured._id %>" class="featured-card">
+          <div class="featured-ribbon">
+            <svg width="10" height="10" fill="currentColor" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Featured
+          </div>
+          <div class="featured-cat"><%= featured.category %></div>
+          <h3 class="featured-title"><%= featured.title %></h3>
+          <p class="featured-excerpt"><%= featured.excerpt %></p>
+          <div class="featured-meta">
+            <span><%= featured.readTime || '5 min read' %></span>
+            <span>·</span>
+            <span><%= featured.author %></span>
+            <span>·</span>
+            <span><%= featured.createdAt ? featured.createdAt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '' %></span>
+          </div>
+          <div class="read-more-arrow">Read Article
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </a>
+      <% } else { %>
+        <div class="hero-stat-grid">
+          <div class="hero-stat"><div class="hero-stat-num"><%= locals.data ? locals.data.length : '0' %>+</div><div class="hero-stat-label">Articles</div></div>
+          <div class="hero-stat"><div class="hero-stat-num">∞</div><div class="hero-stat-label">Ideas</div></div>
+          <div class="hero-stat"><div class="hero-stat-num">5+</div><div class="hero-stat-label">Topics</div></div>
+          <div class="hero-stat"><div class="hero-stat-num">✦</div><div class="hero-stat-label">Premium</div></div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER BAR -->
+<div class="wrap">
+  <div class="filter-bar fade-up" style="animation-delay:0.1s">
+    <% (locals.categories || ['All']).forEach(cat => { %>
+      <a href="/?category=<%= cat %>" class="filter-pill <%= (locals.activeCategory || '') === cat || (cat === 'All' && !locals.activeCategory) ? 'active' : '' %>">
+        <%= cat %>
+      </a>
+    <% }) %>
+  </div>
+
+  <!-- POSTS -->
+  <section class="posts-section">
+    <div class="section-header">
+      <h2 class="section-title">All Posts</h2>
+      <span class="section-count"><%= locals.data ? locals.data.length : 0 %> article<%= locals.data && locals.data.length !== 1 ? 's' : '' %></span>
+    </div>
+
+    <% if (locals.data && locals.data.length > 0) { %>
+      <div class="posts-grid">
+        <% data.forEach((post, i) => { %>
+          <a href="/post/<%= post._id.toString() %>" class="post-card fade-up" style="animation-delay:<%= i * 0.07 %>s">
+            <div class="post-card-top">
+              <div class="post-cat-chip"><%= post.category %></div>
+              <h3 class="post-card-title"><%= post.title %></h3>
+              <p class="post-card-excerpt"><%= post.excerpt %></p>
+            </div>
+            <div class="post-card-bottom">
+              <div class="post-author">
+                <div class="post-author-av"><%= post.author.charAt(0).toUpperCase() %></div>
+                <div>
+                  <div class="post-author-name"><%= post.author %></div>
+                  <div class="post-author-date"><%= post.createdAt ? post.createdAt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '' %></div>
+                </div>
+              </div>
+              <div class="post-read-time">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <%= post.readTime || '5 min' %>
+              </div>
+            </div>
+            <% if (locals.user && (locals.user.userType === 'admin' || locals.user.userId == post.userId)) { %>
+              <div class="post-card-actions" onclick="event.preventDefault()">
+                <a href="<%= locals.user.userType === 'admin' ? '/admin/edit-post/' + post._id.toString() : '/user/edit-post/' + post._id.toString() %>" class="tbl-btn" title="Edit">
+                  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                </a>
+                <form method="POST" action="<%= locals.user.userType === 'admin' ? '/admin/delete-post/' + post._id.toString() : '/user/delete-post/' + post._id.toString() %>?_method=DELETE" style="display:inline" onsubmit="return confirm('Delete this post?')">
+                  <button type="submit" class="tbl-btn tbl-btn--red" title="Delete">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                  </button>
+                </form>
+              </div>
+            <% } %>
+          </a>
+        <% }) %>
+      </div>
+
+      <!-- PAGINATION -->
+      <div class="pagination-row">
+        <% if (locals.prevPage) { %>
+          <a href="/?page=<%= prevPage %>&category=<%= locals.activeCategory || '' %>&search=<%= locals.search || '' %>" class="btn-secondary">← Previous</a>
+        <% } %>
+        <% if (locals.nextPage) { %>
+          <a href="/?page=<%= nextPage %>&category=<%= locals.activeCategory || '' %>&search=<%= locals.search || '' %>" class="btn-secondary">Next →</a>
+        <% } %>
+      </div>
+
+    <% } else { %>
+      <div class="empty-state">
+        <div class="empty-icon">◈</div>
+        <p>No posts found<% if (locals.search) { %> for "<%= locals.search %>"<% } %>.</p>
+        <% if (locals.user) { %>
+          <a href="<%= locals.user.userType === 'admin' ? '/admin/add-post' : '/user/add-post' %>" class="btn-primary" style="margin-top:16px">Write the First Post</a>
+        <% } %>
+      </div>
+    <% } %>
+  </section>
+</div>

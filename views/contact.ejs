@@ -1,0 +1,56 @@
+<div class="content-page wrap fade-in">
+  <p class="content-page-eyebrow">Get In Touch</p>
+  <h1 class="content-page-title">Let's talk.</h1>
+  <p class="content-page-sub">Have an idea, feedback, or just want to say hello? We'd love to hear from you.</p>
+  <div class="gold-line"></div>
+
+  <% if (locals.message) { %>
+    <div class="<%= locals.successMessage ? 'success-banner' : 'error-msg' %>" style="margin-bottom:28px"><%= locals.message %></div>
+  <% } %>
+
+  <div class="contact-grid">
+    <form method="POST" action="/contact" class="contact-field-group">
+      <div class="field-group">
+        <label class="field-label">Full Name *</label>
+        <input type="text" name="name" class="field-input" placeholder="Your full name" required/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Email *</label>
+        <input type="email" name="email" class="field-input" placeholder="you@email.com" required/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Subject</label>
+        <input type="text" name="subject" class="field-input" placeholder="What's this about?"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Message *</label>
+        <textarea name="message" class="field-textarea" style="min-height:140px" placeholder="Tell us more…" required></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="display:flex;align-items:center;gap:6px">
+        Send Message
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </form>
+
+    <div>
+      <div class="contact-info-card">
+        <div class="contact-info-item">
+          <span class="contact-info-icon">📧</span>
+          <div><div class="contact-info-label">Email</div><div class="contact-info-val">contact@velour.blog</div></div>
+        </div>
+        <div class="contact-info-item">
+          <span class="contact-info-icon">📍</span>
+          <div><div class="contact-info-label">Location</div><div class="contact-info-val">Lagos, Nigeria</div></div>
+        </div>
+        <div class="contact-info-item">
+          <span class="contact-info-icon">⏰</span>
+          <div><div class="contact-info-label">Hours</div><div class="contact-info-val">Mon–Fri · 9AM–6PM WAT</div></div>
+        </div>
+        <div class="contact-info-item">
+          <span class="contact-info-icon">⚡</span>
+          <div><div class="contact-info-label">Response Time</div><div class="contact-info-val">Within 24 hours</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

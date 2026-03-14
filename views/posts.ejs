@@ -1,0 +1,48 @@
+<div class="wrap posts-section fade-in" style="padding-top:40px">
+  <div class="section-header">
+    <h1 class="section-title">All Posts</h1>
+    <span class="section-count"><%= locals.data ? locals.data.length : 0 %> article<%= locals.data && locals.data.length !== 1 ? 's' : '' %></span>
+  </div>
+
+  <% if (locals.data && locals.data.length > 0) { %>
+    <div class="posts-grid">
+      <% data.forEach((post, i) => { %>
+        <a href="/post/<%= post._id %>" class="post-card fade-up" style="animation-delay:<%= i * 0.07 %>s">
+          <div class="post-card-top">
+            <div class="post-cat-chip"><%= post.category %></div>
+            <h3 class="post-card-title"><%= post.title %></h3>
+            <p class="post-card-excerpt"><%= post.excerpt %></p>
+          </div>
+          <div class="post-card-bottom">
+            <div class="post-author">
+              <div class="post-author-av"><%= post.author.charAt(0).toUpperCase() %></div>
+              <div>
+                <div class="post-author-name"><%= post.author %></div>
+                <div class="post-author-date"><%= post.createdAt ? post.createdAt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '' %></div>
+              </div>
+            </div>
+            <div class="post-read-time">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <%= post.readTime || '5 min' %>
+            </div>
+          </div>
+        </a>
+      <% }) %>
+    </div>
+
+    <div class="pagination-row">
+      <% if (locals.current > 1) { %>
+        <a href="/posts?page=<%= parseInt(current) - 1 %>" class="btn-secondary">← Previous</a>
+      <% } %>
+      <span class="page-info">Page <%= locals.current %></span>
+      <% if (locals.nextPage) { %>
+        <a href="/posts?page=<%= nextPage %>" class="btn-secondary">Next →</a>
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="empty-state">
+      <div class="empty-icon">◈</div>
+      <p>No posts published yet.</p>
+    </div>
+  <% } %>
+</div>

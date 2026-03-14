@@ -1,0 +1,39 @@
+<div class="form-page wrap fade-in">
+  <a href="/dashboard" class="back-btn">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back
+  </a>
+  <h1 class="form-page-title">New Post</h1>
+  <% if (locals.message) { %><div class="error-msg" style="margin-bottom:20px"><%= locals.message %></div><% } %>
+  <form method="POST" action="/user/add-post" class="form-grid">
+    <div class="field-group">
+      <label class="field-label">Post Title *</label>
+      <input type="text" name="title" class="field-input" placeholder="Write a compelling title…" required/>
+    </div>
+    <div class="form-row">
+      <div class="field-group">
+        <label class="field-label">Category</label>
+        <select name="category" class="field-select">
+          <option>JavaScript</option><option>React</option><option>Node.js</option>
+          <option>MongoDB</option><option>Express.js</option><option>Architecture</option><option>General</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Short Excerpt</label>
+        <input type="text" name="excerpt" class="field-input" placeholder="One-line summary (optional)"/>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Tags <span style="color:var(--ink-3);font-size:0.75rem">(comma separated)</span></label>
+      <input type="text" name="tags" class="field-input" placeholder="JavaScript, Tutorial"/>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Content *</label>
+      <textarea name="content" class="field-textarea" placeholder="Write your article here…" required></textarea>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Publish Post</button>
+      <a href="/dashboard" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>

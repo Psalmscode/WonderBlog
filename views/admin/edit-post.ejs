@@ -1,0 +1,45 @@
+<div class="form-page wrap fade-in">
+  <a href="/admin/dashboard" class="back-btn">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Back to Dashboard
+  </a>
+  <h1 class="form-page-title">Edit Post</h1>
+  <% if (locals.message) { %><div class="error-msg" style="margin-bottom:20px"><%= locals.message %></div><% } %>
+  <form method="POST" action="/admin/edit-post/<%= post._id %>?_method=PUT" class="form-grid">
+    <div class="field-group">
+      <label class="field-label">Post Title *</label>
+      <input type="text" name="title" class="field-input" value="<%= post.title %>" required/>
+    </div>
+    <div class="form-row">
+      <div class="field-group">
+        <label class="field-label">Category</label>
+        <select name="category" class="field-select">
+          <% ['JavaScript','React','Node.js','MongoDB','Express.js','Architecture','General'].forEach(cat => { %>
+            <option <%= post.category === cat ? 'selected' : '' %>><%= cat %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Short Excerpt</label>
+        <input type="text" name="excerpt" class="field-input" value="<%= post.excerpt || '' %>"/>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Tags <span style="color:var(--ink-3);font-size:0.75rem">(comma separated)</span></label>
+      <input type="text" name="tags" class="field-input" value="<%= post.tags ? post.tags.join(', ') : '' %>"/>
+    </div>
+    <div class="field-group">
+      <label class="field-label" style="display:flex;align-items:center;gap:8px">
+        <input type="checkbox" name="featured" value="true" <%= post.featured ? 'checked' : '' %> style="width:auto;accent-color:var(--gold)"/> Mark as Featured
+      </label>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Content *</label>
+      <textarea name="content" class="field-textarea" required><%= post.content %></textarea>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Save Changes</button>
+      <a href="/admin/dashboard" class="btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
