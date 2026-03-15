@@ -1,4 +1,4 @@
-# Velour Blog
+# Wonder Blog
 
 > A premium, silk-smooth Node.js blog platform — built with Express.js, MongoDB, EJS, and Vanilla CSS.
 
@@ -56,8 +56,8 @@ The blog runs at **http://localhost:5000**
 ## ✦ Demo Credentials
 
 **Admin Login** (`/admin`)
-- Username: `Author`
-- Password: `Orooluwaiyanumi`
+- Username: `Wonder`
+- Password: `Blogger`
 
 **User Login** (`/login`)
 - Register a new account or use any seeded user
@@ -92,4 +92,4 @@ The blog runs at **http://localhost:5000**
 
 ---
 
-*Velour — Ideas worth reading.*
+*WonderBlog — Ideas worth reading.*

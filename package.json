@@ -1,7 +1,7 @@
 {
-  "name": "velour-blog",
+  "name": "Wonder-blog",
   "version": "1.0.0",
-  "description": "Velour - A premium Node.js blog platform",
+  "description": "WonderBlog - A premium Node.js blog platform",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
