@@ -23,7 +23,7 @@ app.use(methodOverride('_method'));
 
 // Session
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'velour-secret-key',
+  secret: process.env.SESSION_SECRET || 'WonderBlog-session-secret',
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
@@ -50,7 +50,7 @@ app.use((req, res, next) => {
   res.locals.user = null;
   if (token) {
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'velour-jwt-secret');
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'WonderBlog-super-secret-jwt-key');
       res.locals.user = decoded;
       res.locals.user.userType = req.cookies.authToken ? 'admin' : 'user';
     } catch (err) { /* invalid token */ }
@@ -65,7 +65,7 @@ app.use('/admin', require('./server/route/admin'));
 
 const startServer = (port, attempts = 5) => {
   const server = app.listen(port, () =>
-    console.log(`\n✦ Velour Blog running → http://localhost:${port}\n`)
+    console.log(`\n✦ WonderBlog running → http://localhost:${port}\n`)
   );
 
   server.on('error', (err) => {

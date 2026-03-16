@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
   const nextPage = page * PER_PAGE < total ? page + 1 : null;
   const prevPage = page > 1 ? page - 1 : null;
   res.render('index', {
-    title: 'Velour — Ideas Worth Reading',
+    title: 'WonderBlog — Ideas worth reading',
     description: 'A premium blog platform for developers and thinkers.',
     data: posts, featured, categories: ['All', ...categories],
     activeCategory: category, search, nextPage, prevPage, currentPage: page,
@@ -37,8 +37,8 @@ router.get('/posts', async (req, res) => {
   const total = await Post.countDocuments();
   const posts = await Post.find().sort({ createdAt: -1 }).skip((page - 1) * PER_PAGE).limit(PER_PAGE);
   res.render('posts', {
-    title: 'All Posts — Velour',
-    description: 'Browse all articles on Velour.',
+    title: 'All Posts — WonderBlog',
+    description: 'Browse all articles on WonderBlog.',
     data: posts, current: page,
     nextPage: page * PER_PAGE < total ? page + 1 : null,
   });
@@ -50,23 +50,23 @@ router.get('/post/:id', async (req, res) => {
     const post = await Post.findById(req.params.id);
     if (!post) return res.redirect('/');
     const related = await Post.find({ category: post.category, _id: { $ne: post._id } }).limit(3);
-    res.render('post', { title: `${post.title} — Velour`, description: post.excerpt, data: post, related });
+    res.render('post', { title: `${post.title} — WonderBlog`, description: post.excerpt, data: post, related });
   } catch { res.redirect('/'); }
 });
 
 // Login choice
 router.get('/login-choice', (req, res) => {
-  res.render('login-choice', { title: 'Sign In — Velour', description: 'Sign in to Velour', layout: false });
+  res.render('login-choice', { title: 'Sign In — WonderBlog', description: 'Sign in to WonderBlog', layout: false });
 });
 
 // About
 router.get('/about', (req, res) => {
-  res.render('about', { title: 'About — Velour', description: 'About Velour Blog' });
+  res.render('about', { title: 'About — WonderBlog', description: 'About WonderBlog' });
 });
 
 // Contact GET
 router.get('/contact', (req, res) => {
-  res.render('contact', { title: 'Contact — Velour', description: 'Get in touch with Velour', message: null, successMessage: false });
+  res.render('contact', { title: 'Contact — WonderBlog', description: 'Get in touch with WonderBlog', message: null, successMessage: false });
 });
 
 // Contact POST
@@ -82,9 +82,9 @@ router.post('/contact', async (req, res) => {
       subject: `[Velour Contact] ${subject}`,
       html: `<p><strong>From:</strong> ${name} (${email})</p><p>${message}</p>`,
     });
-    res.render('contact', { title: 'Contact — Velour', description: 'Contact Velour', message: 'Message sent! We\'ll be in touch soon.', successMessage: true });
+    res.render('contact', { title: 'Contact — WonderBlog', description: 'Contact WonderBlog', message: 'Message sent! We\'ll be in touch soon.', successMessage: true });
   } catch {
-    res.render('contact', { title: 'Contact — Velour', description: 'Contact Velour', message: 'Message sent! Thank you for reaching out.', successMessage: true });
+    res.render('contact', { title: 'Contact — WonderBlog', description: 'Contact WonderBlog', message: 'Message sent! Thank you for reaching out.', successMessage: true });
   }
 });
 

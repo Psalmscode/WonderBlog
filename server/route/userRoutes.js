@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Post = require('../models/Post');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'velour-jwt-secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'WonderBlog-jwt-secret';
 
 const requireUser = (req, res, next) => {
   const token = req.cookies.userToken;
@@ -18,7 +18,7 @@ const requireUser = (req, res, next) => {
 
 // Login
 router.get('/login', (req, res) => {
-  res.render('login', { title: 'Sign In — Velour', description: 'Sign in to Velour', message: null, layout: false });
+  res.render('login', { title: 'Sign In — WonderBlog', description: 'Sign in to WonderBlog', message: null, layout: false });
 });
 
 router.post('/login', async (req, res) => {
@@ -26,49 +26,49 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ username: { $regex: new RegExp(`^${username}$`, 'i') } });
     if (!user || !(await user.comparePassword(password))) {
-      return res.render('login', { title: 'Sign In — Velour', description: '', message: 'Invalid credentials.', layout: false });
+      return res.render('login', { title: 'Sign In — WonderBlog', description: 'Sign in to WonderBlog', message: 'Invalid credentials.', layout: false });
     }
     const token = jwt.sign({ userId: user._id, username: user.username, userType: 'user' }, JWT_SECRET, { expiresIn: '7d' });
     res.cookie('userToken', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
     res.redirect('/');
   } catch (err) {
-    res.render('login', { title: 'Sign In — Velour', description: '', message: 'An error occurred.', layout: false });
+    res.render('login', { title: 'Sign In — WonderBlog', description: 'Sign in to WonderBlog', message: 'An error occurred.', layout: false });
   }
 });
 
 // Register
 router.get('/register', (req, res) => {
-  res.render('register', { title: 'Create Account — Velour', description: 'Join Velour', message: null, layout: false });
+  res.render('register', { title: 'Create Account — WonderBlog', description: 'Join WonderBlog', message: null, layout: false });
 });
 
 router.post('/register', async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
   if (password !== confirmPassword) {
-    return res.render('register', { title: 'Create Account — Velour', description: '', message: 'Passwords do not match.', layout: false });
+    return res.render('register', { title: 'Create Account — WonderBlog', description: 'Join WonderBlog', message: 'Passwords do not match.', layout: false });
   }
   try {
     const existing = await User.findOne({ $or: [{ username }, { email }] });
     if (existing) {
-      return res.render('register', { title: 'Create Account — Velour', description: '', message: 'Username or email already taken.', layout: false });
+      return res.render('register', { title: 'Create Account — WonderBlog', description: 'Join WonderBlog', message: 'Username or email already taken.', layout: false });
     }
     const user = await User.create({ username, email, password, userType: 'user' });
     const token = jwt.sign({ userId: user._id, username: user.username, userType: 'user' }, JWT_SECRET, { expiresIn: '7d' });
     res.cookie('userToken', token, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 });
     res.redirect('/');
   } catch (err) {
-    res.render('register', { title: 'Create Account — Velour', description: '', message: 'Registration failed. Try again.', layout: false });
+    res.render('register', { title: 'Create Account — WonderBlog', description: 'Join WonderBlog', message: 'Registration failed. Try again.', layout: false });
   }
 });
 
 // User Dashboard
 router.get('/dashboard', requireUser, async (req, res) => {
   const posts = await Post.find({ userId: req.user.userId }).sort({ createdAt: -1 });
-  res.render('dashboard', { title: 'My Posts — Velour', description: 'Your Velour dashboard', posts, username: req.user.username });
+  res.render('dashboard', { title: 'My Posts — WonderBlog', description: 'Your WonderBlog dashboard', posts, username: req.user.username });
 });
 
 // Add Post
 router.get('/user/add-post', requireUser, (req, res) => {
-  res.render('user/add-post', { title: 'New Post — Velour', description: 'Create a new post', message: null });
+  res.render('user/add-post', { title: 'New Post — WonderBlog', description: 'Create a new post', message: null });
 });
 
 router.post('/user/add-post', requireUser, async (req, res) => {
@@ -82,7 +82,7 @@ router.post('/user/add-post', requireUser, async (req, res) => {
     });
     res.redirect('/dashboard');
   } catch {
-    res.render('user/add-post', { title: 'New Post — Velour', description: '', message: 'Failed to create post.' });
+    res.render('user/add-post', { title: 'New Post — WonderBlog', description: 'Create a new post', message: 'Failed to create post.' });
   }
 });
 
@@ -90,7 +90,7 @@ router.post('/user/add-post', requireUser, async (req, res) => {
 router.get('/user/edit-post/:id', requireUser, async (req, res) => {
   const post = await Post.findOne({ _id: req.params.id, userId: req.user.userId });
   if (!post) return res.redirect('/dashboard');
-  res.render('user/edit-post', { title: 'Edit Post — Velour', description: '', post, message: null });
+  res.render('user/edit-post', { title: 'Edit Post — WonderBlog', description: 'Edit your post', post, message: null });
 });
 
 router.put('/user/edit-post/:id', requireUser, async (req, res) => {

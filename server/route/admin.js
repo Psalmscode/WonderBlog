@@ -20,7 +20,7 @@ const requireAdmin = (req, res, next) => {
 
 // Admin Login Page
 router.get('/', (req, res) => {
-  res.render('admin/contact', { title: 'Admin Login — Velour', description: 'Admin access', message: null, layout: false });
+  res.render('admin/contact', { title: 'Admin Login — WonderBlog', description: 'Admin access', message: null, layout: false });
 });
 
 router.post('/login', (req, res) => {
@@ -30,7 +30,7 @@ router.post('/login', (req, res) => {
     res.cookie('authToken', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
     return res.redirect('/admin/dashboard');
   }
-  res.render('admin/contact', { title: 'Admin Login — Velour', description: '', message: 'Invalid admin credentials.', layout: false });
+  res.render('admin/contact', { title: 'Admin Login — WonderBlog', description: '', message: 'Invalid admin credentials.', layout: false });
 });
 
 router.get('/logout', (req, res) => {
@@ -46,7 +46,7 @@ router.get('/dashboard', requireAdmin, async (req, res) => {
   const categories = [...new Set(posts.map(p => p.category))].length;
   const featured = posts.filter(p => p.featured).length;
   res.render('admin/dashboard', {
-    title: 'Admin Dashboard — Velour', description: 'Manage Velour',
+    title: 'Admin Dashboard — WonderBlog', description: 'Manage WonderBlog',
     data: posts, username: req.admin.username,
     stats: { totalPosts, authors, categories, featured }
   });
@@ -54,7 +54,7 @@ router.get('/dashboard', requireAdmin, async (req, res) => {
 
 // Add Post
 router.get('/add-post', requireAdmin, (req, res) => {
-  res.render('admin/add-post', { title: 'New Post — Velour', description: '', message: null });
+  res.render('admin/add-post', { title: 'New Post — WonderBlog', description: '', message: null });
 });
 
 router.post('/add-post', requireAdmin, async (req, res) => {
@@ -73,7 +73,7 @@ router.post('/add-post', requireAdmin, async (req, res) => {
 router.get('/edit-post/:id', requireAdmin, async (req, res) => {
   const post = await Post.findById(req.params.id);
   if (!post) return res.redirect('/admin/dashboard');
-  res.render('admin/edit-post', { title: 'Edit Post — Velour', description: '', post, message: null });
+  res.render('admin/edit-post', { title: 'Edit Post — WonderBlog', description: '', post, message: null });
 });
 
 router.put('/edit-post/:id', requireAdmin, async (req, res) => {

@@ -11,7 +11,7 @@ async function createAdmin() {
   }
   await User.create({
     username: 'Author',
-    email: 'admin@velour.blog',
+    email: 'admin@WonderBlog.com',
     password: 'Orooluwaiyanumi',
     userType: 'admin',
   });
